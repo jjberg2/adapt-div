@@ -1,4 +1,4 @@
-library ( mvtnorm )
+require ( mvtnorm )
 
 RemoveMatches <- function ( x , matches ) 	 x [ !(x %in% matches) ]
 
@@ -85,6 +85,7 @@ GenData <- function ( n.pops , n.traits , n.envs , n.dad.per.pop , n.inds.per.en
 	for ( i in seq_len ( total.n.inds ) ) {
 		obs.trait.vals [ i , ( my.inds$env [ i ] - 1 ) * n.traits + seq_len(n.traits) ] <-  trait.vals [ i , ( my.inds$env [ i ] - 1 ) * n.traits + seq_len(n.traits) ]
 	}
+	
 	return ( list ( inds = my.inds , ind.effects = ind.effects , pop.effects=pop.effects, pop.effects.by.ind=pop.effects.by.ind , ind.env.effects=ind.env.effects , trait.vals=trait.vals , obs.trait.vals=obs.trait.vals , pop.matrix=pop.matrix , g.matrix=g.matrix , theta.b.mat=theta.b.mat , env.vars=env.vars , n.pops = n.pops , n.traits = n.traits , n.envs = n.envs ) )
 	
 	
