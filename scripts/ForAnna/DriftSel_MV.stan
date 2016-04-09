@@ -1,32 +1,32 @@
 data {
-	int 								N_inds;
-	int 								N_obs_data_pts;
-	int 								N_unobs_data_pts;
-	int 								N_pops;
-	int 								N_traits;
-	int								obs_data_idx[N_obs_data_pts] ;
-	int 								unobs_data_idx[N_unobs_data_pts];
-	int								ind_record[N_inds,6];
-	vector[N_obs_data_pts] 			obs_trait_vals;
+	int 													N_inds;
+	int 													N_obs_data_pts;
+	int 													N_unobs_data_pts;
+	int 													N_pops;
+	int 													N_traits;
+	int														obs_data_idx[N_obs_data_pts] ;
+	int 													unobs_data_idx[N_unobs_data_pts];
+	int														ind_record[N_inds,6];
+	vector[N_obs_data_pts] 				obs_trait_vals;
 	cholesky_factor_corr[N_pops] 	chol_pop_corr;
-	vector[N_pops]					rt_pop_drifts;
+	vector[N_pops]								rt_pop_drifts;
 	cholesky_factor_corr[N_inds] 	chol_study_corr;
-	vector[N_inds]					rt_ind_vars;
+	vector[N_inds]								rt_ind_vars;
 }
 transformed data {
 	int								tot_N_data;
 	tot_N_data <- N_obs_data_pts + N_unobs_data_pts;
 }
 parameters {
-	real								lnrm_mu;
-	real	<lower=0>					lnrm_sig;
-	vector[N_unobs_data_pts] 		x;
+	real														lnrm_mu;
+	real	<lower=0>									lnrm_sig;
+	vector[N_unobs_data_pts] 				x;
 	cholesky_factor_corr[N_traits] 	chol_G_corr;
-	vector<lower=0>[N_traits]		G_vars;
-	vector[N_pops*N_traits]			A_raw; // raw pop level effects
-	vector[tot_N_data]				S_raw; // raw individual level effects
-	real	<lower=0>					V_e[N_traits]; // environmental variance
-	real								mu[N_traits]; // global means
+	vector<lower=0>[N_traits]				G_vars;
+	vector[N_pops*N_traits]					A_raw; // raw pop level effects
+	vector[tot_N_data]							S_raw; // raw individual level effects
+	real	<lower=0>									V_e[N_traits]; // environmental variance
+	real														mu[N_traits]; // global means
 }
 transformed parameters {
 	// vector of both observed and unobserved data

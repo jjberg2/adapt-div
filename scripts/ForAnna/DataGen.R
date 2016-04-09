@@ -64,7 +64,7 @@ GenData <- function ( n.pops , n.traits , n.envs , n.dad.per.pop , n.inds.per.en
 	g.by.ped.matrix <- 2*g.matrix %x% theta.b.mat
 	
 	tmp1 <- rmvnorm ( 1 , mean = rnorm ( n.traits * n.envs * n.pops ) , sigma = ( g.by.pop.matrix ) )
-	pop.effects <- array ( tmp , dim = c ( n.pops , n.traits , n.envs  ) )
+	pop.effects <- array ( tmp1 , dim = c ( n.pops , n.traits , n.envs  ) )
 	tmp2 <- rmvnorm ( 1 , mean = rep ( 0 , total.n.inds*n.envs*n.traits ) , sigma = g.by.ped.matrix )
 	ind.effects <- t ( matrix ( tmp2 , nrow = n.traits*n.envs ) )
 	trait.ids <- paste ( rep ( sprintf ( "Trait%d" , 1:n.traits ) , n.envs ) , rep ( sprintf("_Env%d" , 1:n.envs ) , each = n.traits ) , sep = "" )

@@ -1,6 +1,6 @@
-setwd("~/Documents/Academics/AdaptDiv/Scripts/ForAnna")
-source ( "DataGen.R")
-test.data <- GenData ( 5 , 8 , 3 , 6 , 2 )
+setwd("~/Documents/Academics/adapt-div/")
+source ( "scripts/ForAnna/DataGen.R")
+test.data <- GenData ( 4 , 3 , 3 , 10 , 5 )
 require ( rstan )
 
 PrepStanInput <- function ( data.matrix , pop.matrix , ind.var.matrix ) {
@@ -48,6 +48,10 @@ the.data <- list ( 	N_inds = nrow ( test.data$inds ) ,
 					rt_ind_vars = stan.input$rt.ind.vars 
 				)
 
-my.model <- stan_model ( file = "NewDriftSel.stan" )
 
-blah <- sampling ( my.model , data = the.data , iter = 100 , chains = 2 , control = list ( max_treedepth = 10 , refresh = 10 ) pars = c ( "A" , "S" , "chol_G_corr" , "G_vars" , "V_e" , "mu" , "lnrm_mu" , "lnrm_sig"))
+options(mc.cores = parallel::detectCores())
+my.model <- stan_model ( file = "scripts/ForAnna/DriftSel_MV.stan" )
+
+blah <- sampling ( my.model , data = the.data , iter = 2500 , chains = 4 , control = list ( max_treedepth = 12 , adapt_delta = 0.95 , stepsize = 0.01) , refresh = 1  , pars = c ( "A" , "S" , "chol_G_corr" , "G_vars" , "V_e" , "mu" , "lnrm_mu" , "lnrm_sig") , cores = 4 , open_progress = FALSE , diagnostic_file = "sims/diagnostics" , sample_file = "sims/samples")
+save ( test.data , file = "sims/test.new.driftsel.simdata.Robj")
+save ( blah , file = "sims/testing.new.driftsel.stanfit.Robj")
